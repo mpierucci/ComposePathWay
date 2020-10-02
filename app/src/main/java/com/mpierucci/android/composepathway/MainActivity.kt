@@ -5,13 +5,18 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.Text
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.setContent
 import androidx.compose.ui.res.imageResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.ui.tooling.preview.Preview
 import com.mpierucci.android.composepathway.ui.ComposePathWayTheme
+import com.mpierucci.android.composepathway.ui.typography
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,21 +30,32 @@ class MainActivity : AppCompatActivity() {
 @Composable
 fun NewStory() {
     val image = imageResource(id = R.drawable.header)
-    Column(modifier = Modifier.padding(8.dp)) {
-        val imageModifier = Modifier.preferredHeight(180.dp)
-            .fillMaxWidth()
-        Image(image, modifier = imageModifier)
-        Spacer(modifier = Modifier.preferredHeight(16.dp))
-        Text("A what a wonderful day")
-        Text("To learn compose")
-        Text("Following the path way")
+
+    ComposePathWayTheme() {
+        Column(
+            modifier = Modifier.padding(16.dp)
+        ) {
+            val imageModifier = Modifier
+                .preferredHeight(180.dp)
+                .fillMaxWidth()
+                .clip(shape = RoundedCornerShape(4.dp))
+            Image(image, modifier = imageModifier, contentScale = ContentScale.Crop)
+            Spacer(modifier = Modifier.preferredHeight(16.dp))
+            Text(
+                "A day wandering through the sandhills " +
+                        "in Shark Fin Cove, and a few of the " +
+                        "sights I saw", style = typography.h6,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis
+            )
+            Text("To learn compose", style = typography.body2)
+            Text("Following the path way", style = typography.body2)
+        }
     }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
-    ComposePathWayTheme {
-        NewStory()
-    }
+    NewStory()
 }
